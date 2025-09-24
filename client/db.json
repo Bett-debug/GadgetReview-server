@@ -1,0 +1,96 @@
+{
+  "devices": [
+    {
+      "id": "1",
+      "name": "iPhone 15 Pro",
+      "brand": "Apple",
+      "category": "Smartphone",
+      "avg_price": 999,
+      "specs": "A17 Bionic, 6.1-inch OLED, Triple Camera",
+      "image_url": "https://images.unsplash.com/photo-1697284959152-32ef13855932?w=500&auto=format&fit=crop&q=60",
+      "recommended_store": "https://apple.com/iphone-15-pro"
+    },
+    {
+      "id": "2",
+      "name": "Samsung Galaxy S24",
+      "brand": "Samsung",
+      "category": "Smartphone",
+      "avg_price": 899,
+      "specs": "Snapdragon 8 Gen 3, 6.5-inch AMOLED, Quad Camera",
+      "image_url": "https://images.unsplash.com/photo-1705530292519-ec81f2ace70d?w=500&auto=format&fit=fit=crop&q=60",
+      "recommended_store": "https://samsung.com/galaxy-s24"
+    },
+    {
+      "id": "3",
+      "name": "MacBook Air M3",
+      "brand": "Apple",
+      "category": "Laptop",
+      "avg_price": 1299,
+      "specs": "M3 Chip, 13-inch Retina, 18h Battery Life",
+      "image_url": "https://images.unsplash.com/photo-1710905018864-d585574d79f8?w=500&auto=format&fit=crop&q=60",
+      "recommended_store": "https://apple.com/macbook-air-m3"
+    },
+
+    {
+      "id": "472e",
+      "name": "oppo reno 14",
+      "brand": "oppo",
+      "category": "phone",
+      "avg_price": "14000",
+      "image_url": "https://images.unsplash.com/photo-1609388449750-b504ef6d97f1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b3BwbyUyMHJlbm98ZW58MHx8MHx8fDA%3D",
+      "recommended_store": "https://www.oppo.com/ke/",
+      "specs": "qwertyuiop",
+      "status": "pending"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "deviceId": "1",
+      "user_id": 1,
+      "rating": 5,
+      "comment": "Amazing phone, battery lasts all day!",
+      "created_at": "2024-04-10T12:00:00Z"
+    },
+    {
+      "id": "2",
+      "deviceId": "1",
+      "user_id": 2,
+      "rating": 4,
+      "comment": "Great camera, but a bit expensive.",
+      "created_at": "2024-04-11T12:00:00Z"
+    },
+    {
+      "id": "3",
+      "deviceId": "2",
+      "user_id": 3,
+      "rating": 5,
+      "comment": "Best Android phone I’ve used so far!",
+      "created_at": "2024-04-12T12:00:00Z"
+    },
+    {
+      "id": "4",
+      "deviceId": "3",
+      "user_id": 4,
+      "rating": 3.5,
+      "comment": "Best device I’ve used so far!",
+      "created_at": "2024-04-13T12:00:00Z"
+    },
+    {
+      "id": "89d6",
+      "deviceId": 1,
+      "author": "User 2",
+      "rating": 5,
+      "comment": "bes price in the market",
+      "created_at": "2025-09-23T22:24:43.057Z"
+    },
+    {
+      "id": "99a2",
+      "deviceId": 1,
+      "user_id": 12,
+      "rating": "2",
+      "comment": "fair price",
+      "created_at": "2025-09-23T22:28:40.058Z"
+    }
+  ]
+}
