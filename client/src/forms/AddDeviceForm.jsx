@@ -78,7 +78,7 @@ export default function AddDeviceForm({ onSuccess }) {
           />
 
           <label>Average price</label>
-          <Field name="avg_price" placeholder="e.g. 89900" />
+          <Field name="avg_price" placeholder="e.g. Ksh 89900" />
           <ErrorMessage
             name="avg_price"
             component="div"
@@ -86,7 +86,7 @@ export default function AddDeviceForm({ onSuccess }) {
           />
 
           <label>Image URL</label>
-          <Field name="image_url" placeholder="https://unsplash.com/..." />
+          <Field name="image_url" placeholder="https://..." />
           <ErrorMessage
             name="image_url"
             component="div"

@@ -49,7 +49,7 @@ export default function ReviewForm({ deviceId, onAdded }) {
     >
       {({ isSubmitting }) => (
         <Form className="form-card">
-          <label>Your user id</label>
+          <label>Your user number</label>
           <Field name="user_id" type="number" />
           <ErrorMessage
             name="user_id"

@@ -373,14 +373,6 @@
       "rating": 5,
       "comment": "This console is incredibly powerful. The graphics are stunning.",
       "created_at": "2024-05-03T12:00:00Z"
-    },
-    {
-      "id": "50ca",
-      "deviceId": 2,
-      "user_id": 3,
-      "rating": "3",
-      "comment": "good for the price",
-      "created_at": "2025-09-24T07:38:47.282Z"
     }
   ]
 }

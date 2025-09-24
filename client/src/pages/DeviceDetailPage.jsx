@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ReviewForm from "../forms/ReviewForm";
 import ReviewCard from "../components/ReviewCard";
 
@@ -19,8 +19,18 @@ function fetchReviewsForDevice(deviceId) {
   });
 }
 
+function deleteReview(id) {
+  return fetch(`${API_URL}/reviews/${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    if (!res.ok) throw new Error("Failed to delete review");
+    return res.json();
+  });
+}
+
 export default function DeviceDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [device, setDevice] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,11 +57,26 @@ export default function DeviceDetailPage() {
     setReviews((prev) => [...prev, newReview]);
   }
 
+  function handleDeleteReview(reviewId) {
+    if (window.confirm("Delete this review?")) {
+      deleteReview(reviewId)
+        .then(() => setReviews((prev) => prev.filter((r) => r.id !== reviewId)))
+        .catch((err) => alert("Failed to delete: " + err.message));
+    }
+  }
+
   if (loading) return <p>Loading...</p>;
   if (!device) return <p>Device not found.</p>;
 
   return (
     <div className="detail-page">
+      <button
+        className="btn"
+        style={{ marginBottom: "1rem" }}
+        onClick={() => navigate("/devices")}
+      >
+        Back to Devices
+      </button>
       <div className="detail-top">
         <div className="detail-image">
           <img
@@ -88,7 +113,13 @@ export default function DeviceDetailPage() {
           {reviews.length === 0 ? (
             <p>No reviews yet — be the first to review.</p>
           ) : (
-            reviews.map((r) => <ReviewCard key={r.id} review={r} />)
+            reviews.map((r) => (
+              <ReviewCard
+                key={r.id}
+                review={r}
+                onDelete={() => handleDeleteReview(r.id)}
+              />
+            ))
           )}
         </div>
         <h4>Add a review</h4>

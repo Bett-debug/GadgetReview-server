@@ -232,6 +232,27 @@ body {
   margin-bottom: 12px;
 }
 
+
+.device-btn {
+  background: var(--primary-dark);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  gap: 6px;
+}
+
+.device-btn:hover {
+  background-color: #e11d48;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -262,7 +283,7 @@ body {
 /* Device Detail Page */
 .detail-page {
   max-width: 1100px;
-  margin: 2rem auto;
+  margin: 5rem auto;
   padding: 2rem;
   background: #ffffff;
   border-radius: 16px;
@@ -471,4 +492,33 @@ body {
 
 .btn.primary:hover {
   background: #1e40af;
+}
+
+.review-btn {
+  background: var(--primary-dark);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 6px;
+}
+
+.review-btn:hover {
+  background-color: #e11d48;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+/* rating stars */
+
+.rating-stars svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 2px;
+  vertical-align: middle;
 }

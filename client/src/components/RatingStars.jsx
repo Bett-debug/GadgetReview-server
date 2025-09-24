@@ -1,20 +1,14 @@
-import React from "react";
+import { Star, StarHalf } from "lucide-react";
 
 export default function RatingStars({ rating = 0 }) {
-  const full = Math.round(rating);
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating - fullStars >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+
   return (
     <span className="rating-stars">
-      {Array.from({ length: full }).map((_, i) => (
-        <svg
-          key={i}
-          className="star full"
-          viewBox="0 0 24 24"
-          width="16"
-          height="16"
-          aria-hidden
-        >
-          <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.17L12 18.896 4.664 23.167l1.402-8.17L.132 9.21l8.2-1.192z" />
-        </svg>
+      {Array.from({ length: fullStars }).map((_, i) => (
+        <Star key={`full-${i}`} fill="#fbbf24" strokeWidth={0} />
       ))}
     </span>
   );

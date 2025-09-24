@@ -1,7 +1,8 @@
 import React from "react";
+import { Trash2 } from "lucide-react";
 import RatingStars from "./RatingStars";
 
-export default function ReviewCard({ review }) {
+export default function ReviewCard({ review, onDelete }) {
   return (
     <div className="review-card">
       <div className="review-head">
@@ -15,6 +16,15 @@ export default function ReviewCard({ review }) {
       <small className="review-date">
         {new Date(review.created_at).toLocaleString()}
       </small>
+      {onDelete && (
+        <button
+          className="review-btn"
+          onClick={onDelete}
+        >
+          <Trash2 size={15}/>
+          Delete
+        </button>
+      )}
     </div>
   );
 }

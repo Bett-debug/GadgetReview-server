@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Trash2 } from "lucide-react";
+
 
 const API_URL = "http://localhost:3001";
 
 function fetchAllDevices() {
   return fetch(`${API_URL}/devices`).then((res) => {
     if (!res.ok) throw new Error("Failed to fetch devices");
+    return res.json();
+  });
+}
+
+function deleteDevice(id) {
+  return fetch(`${API_URL}/devices/${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    if (!res.ok) throw new Error("Failed to delete device");
     return res.json();
   });
 }
@@ -26,6 +37,14 @@ export default function DevicesPage() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  function handleDeleteDevice(deviceId) {
+    if (window.confirm("Are you sure you want to delete this device?")) {
+      deleteDevice(deviceId)
+        .then(() => setDevices((prev) => prev.filter((d) => d.id !== deviceId)))
+        .catch((err) => alert("Failed to delete: " + err.message));
+    }
+  }
 
   const filteredDevices = devices
     .filter((d) => d.name.toLowerCase().includes(search.toLowerCase()))
@@ -98,6 +117,14 @@ export default function DevicesPage() {
                 <Link to={`/devices/${device.id}`} className="btn primary">
                   View More
                 </Link>
+                <button
+                  className="device-btn"
+                  onClick={() => handleDeleteDevice(device.id)}
+                  style={{ marginLeft: "10px" }}
+                >
+                  <Trash2 size={15}/>
+                  Delete
+                </button>
               </div>
             </div>
           ))
