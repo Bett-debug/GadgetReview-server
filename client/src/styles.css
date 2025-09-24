@@ -445,7 +445,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .form-card label {
@@ -521,4 +520,9 @@ body {
   height: 20px;
   margin-right: 2px;
   vertical-align: middle;
+}
+
+.add-device-page {
+  padding: 80px 20px 50px;
+
 }
