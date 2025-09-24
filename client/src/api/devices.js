@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000/api";
 
 export async function fetchDeviceById(id) {
   const res = await fetch(`${API_URL}/devices/${id}`);

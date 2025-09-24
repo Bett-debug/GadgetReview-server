@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // API FUNCTION
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000/api";
 
 async function fetchAllDevices() {
   const res = await fetch(`${API_URL}/devices`);
