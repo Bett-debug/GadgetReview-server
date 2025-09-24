@@ -3,7 +3,7 @@ import AddDeviceForm from "../forms/AddDeviceForm";
 
 export default function AddDevicePage() {
   return (
-    <div className="add-device-page">
+    <div>
       <h2>Suggest a New Device</h2>
       <p>
         Fill the form to suggest a new device.
