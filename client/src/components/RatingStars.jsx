@@ -4,10 +4,10 @@ export default function RatingStars({ rating = 0 }) {
   const full = Math.round(rating);
   return (
     <span className="rating-stars">
-      {Array.from({ length: 5 }).map((_, i) => (
+      {Array.from({ length: full }).map((_, i) => (
         <svg
           key={i}
-          className={`star ${i < full ? "full" : ""}`}
+          className="star full"
           viewBox="0 0 24 24"
           width="16"
           height="16"

@@ -12,7 +12,7 @@ const AddDeviceSchema = Yup.object().shape({
     .typeError("Must be a number")
     .positive("Must be positive")
     .required("Required"),
-  // Added image_url validation
+
   image_url: Yup.string().url("Must be a valid URL").nullable(),
   recommended_store: Yup.string().url("Must be a valid URL").nullable(),
   specs: Yup.string().nullable(),
@@ -26,7 +26,7 @@ export default function AddDeviceForm({ onSuccess }) {
         brand: "",
         category: "",
         avg_price: "",
-        image_url: "", // Added initial value
+        image_url: "",
         recommended_store: "",
         specs: "",
       }}
@@ -70,7 +70,6 @@ export default function AddDeviceForm({ onSuccess }) {
             <option value="phone">Phone</option>
             <option value="laptop">Laptop</option>
             <option value="tablet">Tablet</option>
-            <option value="accessory">Accessory</option>
           </Field>
           <ErrorMessage
             name="category"

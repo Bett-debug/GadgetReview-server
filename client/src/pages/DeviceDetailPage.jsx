@@ -1,9 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchDeviceById } from "../api/devices";
-import { fetchReviewsForDevice } from "../api/reviews";
 import ReviewForm from "../forms/ReviewForm";
 import ReviewCard from "../components/ReviewCard";
+
+const API_URL = "http://localhost:3001";
+
+function fetchDeviceById(id) {
+  return fetch(`${API_URL}/devices/${id}`).then((res) => {
+    if (!res.ok) throw new Error("Failed to fetch device");
+    return res.json();
+  });
+}
+
+function fetchReviewsForDevice(deviceId) {
+  return fetch(`${API_URL}/reviews?deviceId=${deviceId}`).then((res) => {
+    if (!res.ok) throw new Error("Failed to fetch reviews");
+    return res.json();
+  });
+}
 
 export default function DeviceDetailPage() {
   const { id } = useParams();

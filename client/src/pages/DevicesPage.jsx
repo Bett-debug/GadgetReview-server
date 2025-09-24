@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-// API FUNCTION
 const API_URL = "http://localhost:3001";
 
-async function fetchAllDevices() {
-  const res = await fetch(`${API_URL}/devices`);
-  if (!res.ok) throw new Error("Failed to fetch devices");
-  return res.json();
+function fetchAllDevices() {
+  return fetch(`${API_URL}/devices`).then((res) => {
+    if (!res.ok) throw new Error("Failed to fetch devices");
+    return res.json();
+  });
 }
 
 export default function DevicesPage() {
@@ -19,17 +19,12 @@ export default function DevicesPage() {
   const [budget, setBudget] = useState("");
 
   useEffect(() => {
-    async function loadDevices() {
-      try {
-        const data = await fetchAllDevices();
-        setDevices(data);
-      } catch (err) {
+    fetchAllDevices()
+      .then((data) => setDevices(data))
+      .catch((err) => {
         console.error("Error fetching devices:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadDevices();
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const filteredDevices = devices

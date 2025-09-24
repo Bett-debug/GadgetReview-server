@@ -1,7 +1,19 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { addReview } from "../api/reviews";
+
+const API_URL = "http://localhost:3001";
+
+function addReview(review) {
+  return fetch(`${API_URL}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  }).then((res) => {
+    if (!res.ok) throw new Error("Failed to add review");
+    return res.json();
+  });
+}
 
 const ReviewSchema = Yup.object().shape({
   user_id: Yup.number().required("User id required").integer().positive(),
@@ -14,29 +26,30 @@ export default function ReviewForm({ deviceId, onAdded }) {
     <Formik
       initialValues={{ user_id: 1, rating: 5, comment: "" }}
       validationSchema={ReviewSchema}
-      onSubmit={async (values, { setSubmitting, resetForm }) => {
-        try {
-          const payload = {
-            deviceId: deviceId,
-            user_id: values.user_id, // Store the raw user ID
-            rating: values.rating,
-            comment: values.comment,
-            created_at: new Date().toISOString(),
-          };
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        const payload = {
+          deviceId: deviceId,
+          user_id: values.user_id,
+          rating: values.rating,
+          comment: values.comment,
+          created_at: new Date().toISOString(),
+        };
 
-          const data = await addReview(payload);
-          onAdded(data);
-          resetForm();
-        } catch (e) {
-          console.error(e);
-          alert("Failed: " + e.message);
-        }
-        setSubmitting(false);
+        addReview(payload)
+          .then((data) => {
+            onAdded(data);
+            resetForm();
+          })
+          .catch((e) => {
+            console.error(e);
+            alert("Failed: " + e.message);
+          })
+          .finally(() => setSubmitting(false));
       }}
     >
       {({ isSubmitting }) => (
         <Form className="form-card">
-          <label>Your user id (demo)</label>
+          <label>Your user id</label>
           <Field name="user_id" type="number" />
           <ErrorMessage
             name="user_id"
