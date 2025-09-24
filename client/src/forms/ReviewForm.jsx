@@ -2,10 +2,10 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000";
 
 function addReview(review) {
-  return fetch(`${API_URL}/reviews`, {
+  return fetch(`${API_URL}/api/reviews`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(review),

@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000";
 
 function fetchAllDevices() {
-  return fetch(`${API_URL}/devices`).then((res) => {
+  return fetch(`${API_URL}/api/devices`).then((res) => {
     if (!res.ok) throw new Error("Failed to fetch devices");
     return res.json();
   });
 }
 
 function deleteDevice(id) {
-  return fetch(`${API_URL}/devices/${id}`, {
-    method: "DELETE",
-  }).then((res) => {
-    if (!res.ok) throw new Error("Failed to delete device");
-    return res.json();
-  });
+  return fetch(`${API_URL}/api/devices/${id}`, { method: "DELETE" }).then(
+    (res) => {
+      if (!res.ok) throw new Error("Failed to delete device");
+      return res.json();
+    }
+  );
 }
 
 export default function DevicesPage() {
@@ -31,16 +31,18 @@ export default function DevicesPage() {
   useEffect(() => {
     fetchAllDevices()
       .then((data) => setDevices(data))
-      .catch((err) => {
-        console.error("Error fetching devices:", err);
-      })
+      .catch((err) => console.error("Error fetching devices:", err))
       .finally(() => setLoading(false));
   }, []);
 
   function handleDeleteDevice(deviceId) {
     if (window.confirm("Are you sure you want to delete this device?")) {
       deleteDevice(deviceId)
-        .then(() => setDevices((prev) => prev.filter((d) => d.id !== deviceId)))
+        .then(() =>
+          setDevices((prevDevices) =>
+            prevDevices.filter((d) => d.id !== deviceId)
+          )
+        )
         .catch((err) => alert("Failed to delete: " + err.message));
     }
   }
@@ -61,11 +63,9 @@ export default function DevicesPage() {
     <div className="container">
       <div className="page-header">
         <h1>Devices Catalog</h1>
-        <p>
-          Search, filter, and sort to find the perfect match for your next
-          gadget.
-        </p>
+        <p>Search, filter, and sort to find the perfect gadget.</p>
       </div>
+
       <div className="filters">
         <input
           type="text"
@@ -74,19 +74,13 @@ export default function DevicesPage() {
           onChange={(e) => setSearch(e.target.value)}
           className="search-bar"
         />
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-        >
+        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
           <option value="All">All Types</option>
           <option value="Smartphone">Smartphones</option>
           <option value="Laptop">Laptops</option>
           <option value="Tablet">Tablets</option>
         </select>
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-        >
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
           <option value="default">Sort by</option>
           <option value="low-high">Price: Low to High</option>
           <option value="high-low">Price: High to Low</option>
@@ -99,6 +93,7 @@ export default function DevicesPage() {
           className="budget-input"
         />
       </div>
+
       <div className="device-grid">
         {filteredDevices.length > 0 ? (
           filteredDevices.map((device) => (
@@ -121,8 +116,7 @@ export default function DevicesPage() {
                   onClick={() => handleDeleteDevice(device.id)}
                   style={{ marginLeft: "10px" }}
                 >
-                  <Trash2 size={15} />
-                  Delete
+                  <Trash2 size={15} /> Delete
                 </button>
               </div>
             </div>

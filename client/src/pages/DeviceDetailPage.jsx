@@ -3,24 +3,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import ReviewForm from "../forms/ReviewForm";
 import ReviewCard from "../components/ReviewCard";
 
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000";
 
 function fetchDeviceById(id) {
-  return fetch(`${API_URL}/devices/${id}`).then((res) => {
+  return fetch(`${API_URL}/api/devices/${id}`).then((res) => {
     if (!res.ok) throw new Error("Failed to fetch device");
     return res.json();
   });
 }
 
 function fetchReviewsForDevice(deviceId) {
-  return fetch(`${API_URL}/reviews?deviceId=${deviceId}`).then((res) => {
+  return fetch(`${API_URL}/api/reviews?deviceId=${deviceId}`).then((res) => {
     if (!res.ok) throw new Error("Failed to fetch reviews");
     return res.json();
   });
 }
 
 function deleteReview(id) {
-  return fetch(`${API_URL}/reviews/${id}`, {
+  return fetch(`${API_URL}/api/reviews/${id}`, {
     method: "DELETE",
   }).then((res) => {
     if (!res.ok) throw new Error("Failed to delete review");
@@ -37,17 +37,21 @@ export default function DeviceDetailPage() {
 
   useEffect(() => {
     let mounted = true;
-    Promise.all([fetchDeviceById(id), fetchReviewsForDevice(id)])
-      .then(([dev, revs]) => {
-        if (mounted) {
-          setDevice(dev);
-          setReviews(revs || []);
-        }
+
+    // Fetch device and reviews without async/await
+    fetchDeviceById(id)
+      .then((dev) => {
+        if (mounted) setDevice(dev);
+        return fetchReviewsForDevice(id);
+      })
+      .then((revs) => {
+        if (mounted) setReviews(revs || []);
       })
       .catch(console.error)
       .finally(() => {
         if (mounted) setLoading(false);
       });
+
     return () => {
       mounted = false;
     };
