@@ -15,6 +15,13 @@ def get_device(id):
     device = Device.query.get_or_404(id)
     return jsonify(device.to_dict())
 
+@device_bp.route("/<int:id>", methods=["DELETE"])
+def delete_device(id):
+    device = Device.query.get_or_404(id)
+    db.session.delete(device)
+    db.session.commit()
+    return jsonify({"message": "Device deleted"}), 200
+
 
 @device_bp.route("", methods=["POST"])
 def add_device():

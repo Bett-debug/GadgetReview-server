@@ -1,8 +1,8 @@
-"""Initial migration
+"""Add deviceId column to reviews table
 
-Revision ID: 1484a747e6ba
+Revision ID: 23710d29e8dd
 Revises: 
-Create Date: 2025-09-24 10:32:30.910498
+Create Date: 2025-09-24 21:32:50.161308
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1484a747e6ba'
+revision = '23710d29e8dd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,12 +32,12 @@ def upgrade():
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('device_id', sa.Integer(), nullable=False),
+    sa.Column('deviceId', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('rating', sa.Integer(), nullable=False),
     sa.Column('comment', sa.Text(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['device_id'], ['devices.id'], ),
+    sa.ForeignKeyConstraint(['deviceId'], ['devices.id'], name='fk_reviews_deviceId'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

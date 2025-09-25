@@ -28,9 +28,10 @@ export default function ReviewForm({ deviceId, onAdded }) {
       validationSchema={ReviewSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const payload = {
-          deviceId: deviceId,
+          // Cast to Number to ensure the correct data type
+          deviceId: Number(deviceId),
           user_id: values.user_id,
-          rating: values.rating,
+          rating: Number(values.rating),
           comment: values.comment,
           created_at: new Date().toISOString(),
         };

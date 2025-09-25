@@ -36,8 +36,12 @@ class Review(db.Model):
     __tablename__ = "reviews"
 
     id = db.Column(db.Integer, primary_key=True)
-    device_id = db.Column(db.Integer, db.ForeignKey("devices.id"), nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)  
+    deviceId = db.Column(
+        db.Integer,
+        db.ForeignKey("devices.id", name="fk_reviews_deviceId"),
+        nullable=False
+    )
+    user_id = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -45,9 +49,9 @@ class Review(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "deviceId": self.device_id,
+            "deviceId": self.deviceId,
             "user_id": self.user_id,
             "rating": self.rating,
             "comment": self.comment,
-            "created_at": self.created_at.isoformat(),
+            "created_at": self.created_at.isoformat() if self.created_at else None,
         }

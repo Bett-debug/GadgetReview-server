@@ -272,7 +272,7 @@ def seed_data():
       "id": "9",
       "deviceId": "5",
       "user_id": 501,
-      "rating": 4.5,
+      "rating": 4,
       "comment": "Perfect for drawing and taking notes. The screen is incredible.",
       "created_at": "2024-04-18T12:00:00Z"
     },
@@ -304,7 +304,7 @@ def seed_data():
       "id": "13",
       "deviceId": "9",
       "user_id": 901,
-      "rating": 4.5,
+      "rating": 4,
       "comment": "Fast and reliable. Perfect for a student on a budget.",
       "created_at": "2024-04-22T12:00:00Z"
     },
@@ -352,7 +352,7 @@ def seed_data():
       "id": "19",
       "deviceId": "15",
       "user_id": 1501,
-      "rating": 3.5,
+      "rating": 3,
       "comment": "A basic tablet, but good enough for watching videos and light browsing.",
       "created_at": "2024-04-28T12:00:00Z"
     },
@@ -360,7 +360,7 @@ def seed_data():
       "id": "20",
       "deviceId": "16",
       "user_id": 1601,
-      "rating": 4.5,
+      "rating": 4,
       "comment": "Great fitness tracking and a bright display. Looks stylish too.",
       "created_at": "2024-04-29T12:00:00Z"
     },
@@ -380,29 +380,12 @@ def seed_data():
       "comment": "Convenient for controlling my smart home devices with voice commands.",
       "created_at": "2024-05-01T12:00:00Z"
     },
-    {
-      "id": "23",
-      "deviceId": "19",
-      "user_id": 1901,
-      "rating": 5,
-      "comment": "The noise cancellation is amazing. I use these every day for my commute.",
-      "created_at": "2024-05-02T12:00:00Z"
-    },
-    {
-      "id": "24",
-      "deviceId": "20",
-      "user_id": 2001,
-      "rating": 5,
-      "comment": "This console is incredibly powerful. The graphics are stunning.",
-      "created_at": "2024-05-03T12:00:00Z"
-    },
-            # ... include all other reviews here ...
         ]
 
         # Convert created_at string to datetime if needed
         from datetime import datetime
         for r in reviews_data:
-            r["device_id"] = r.pop("deviceId")  # match SQLAlchemy field
+            r["deviceId"] = r.pop("deviceId")  # match SQLAlchemy field
             r["created_at"] = datetime.fromisoformat(r["created_at"].replace("Z", "+00:00"))
 
         reviews = [Review(**r) for r in reviews_data]
