@@ -14,7 +14,7 @@ Before running the project, make sure you have installed:
 Clone the repository and install dependencies:
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:Benson-Mwanake/GadgetReview.git
 cd client
 npm install
 ```
