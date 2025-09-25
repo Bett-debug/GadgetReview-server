@@ -1,5 +1,5 @@
 from app import create_app, db
-from models import Device, Review
+from models import User,Device, Review
 
 app = create_app()
 
@@ -9,6 +9,21 @@ def seed_data():
 
         Review.query.delete()
         Device.query.delete()
+        User.query.delete()
+
+        #-----users-----
+        user1 = User(username="alice", email="alice@example.com")
+        user1.set_password("password123")
+
+        user2 = User(username="bob", email="bob@example.com")
+        user2.set_password("password456")
+
+        user3 = User(username="charlie", email="charlie@example.com")
+        user3.set_password("password789")
+
+        db.session.add_all([user1, user2, user3])
+        db.session.commit()
+        print("Users seeded!")
 
         # Devices data
         devices_data = [
