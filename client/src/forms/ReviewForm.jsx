@@ -7,28 +7,21 @@ const API_URL = "http://localhost:5000";
 
 
 async function addReview(review, token) {
-  try {
-    const res = await fetch(`${API_URL}/api/reviews`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, 
-      },
-      body: JSON.stringify(review),
-    });
+  const res = await fetch(`${API_URL}/api/reviews`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(review),
+  });
 
+  if (!res.ok) {
     const text = await res.text();
-    console.log("📥 Raw server response:", res.status, text);
-
-    if (!res.ok) {
-      throw new Error(text || "Failed to add review");
-    }
-
-    return JSON.parse(text);
-  } catch (err) {
-    console.error(" addReview error:", err);
-    throw err;
+    throw new Error(text || "Failed to add review");
   }
+
+  return res.json();
 }
 
 

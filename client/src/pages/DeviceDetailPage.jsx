@@ -128,7 +128,7 @@ export default function DeviceDetailPage() {
               <ReviewCard
                 key={r.id}
                 review={r}
-                // show delete only if the logged-in user owns this review
+                
                 onDelete={
                   user && r.user_id === user.id
                     ? () => handleDeleteReview(r.id)
