@@ -5,16 +5,14 @@ import { AuthContext } from "../context/AuthContext";
 
 const API_URL = "http://localhost:5000";
 
-// ------------------------------
-// API helper
-// ------------------------------
+
 async function addReview(review, token) {
   try {
     const res = await fetch(`${API_URL}/api/reviews`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ✅ JWT token from AuthContext
+        Authorization: `Bearer ${token}`, 
       },
       body: JSON.stringify(review),
     });
@@ -28,22 +26,18 @@ async function addReview(review, token) {
 
     return JSON.parse(text);
   } catch (err) {
-    console.error("❌ addReview error:", err);
+    console.error(" addReview error:", err);
     throw err;
   }
 }
 
-// ------------------------------
-// Form validation schema
-// ------------------------------
+
 const ReviewSchema = Yup.object().shape({
   rating: Yup.number().required("Rating required").min(1).max(5),
   comment: Yup.string().required("Please add a comment").min(5),
 });
 
-// ------------------------------
-// Component
-// ------------------------------
+
 export default function ReviewForm({ deviceId, onAdded }) {
   const { user, token } = useContext(AuthContext);
 
@@ -57,21 +51,21 @@ export default function ReviewForm({ deviceId, onAdded }) {
       validationSchema={ReviewSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const payload = {
-          deviceId: Number(deviceId), // ✅ matches Flask field
+          deviceId: Number(deviceId), 
           rating: Number(values.rating),
           comment: values.comment,
         };
 
-        console.log("📤 Submitting review payload:", payload);
+        console.log(" Submitting review payload:", payload);
 
         addReview(payload, token)
           .then((data) => {
-            console.log("✅ Review saved:", data);
-            if (onAdded) onAdded(data); // trigger parent reload
+            console.log("Review saved:", data);
+            if (onAdded) onAdded(data); 
             resetForm();
           })
           .catch((e) => {
-            console.error("❌ Error adding review:", e.message);
+            console.error(" Error adding review:", e.message);
             alert("Failed: " + e.message);
           })
           .finally(() => setSubmitting(false));
