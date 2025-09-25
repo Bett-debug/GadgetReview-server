@@ -38,7 +38,6 @@ export default function DeviceDetailPage() {
   useEffect(() => {
     let mounted = true;
 
-    // Fetch device and reviews without async/await
     fetchDeviceById(id)
       .then((dev) => {
         if (mounted) setDevice(dev);

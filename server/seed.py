@@ -1,5 +1,5 @@
 from app import create_app, db
-from models import Device, Review  # Make sure you import Review
+from models import Device, Review
 
 app = create_app()
 
@@ -7,7 +7,6 @@ def seed_data():
     with app.app_context():
         print("Seeding database...")
 
-        # Clear existing data
         Review.query.delete()
         Device.query.delete()
 
@@ -193,7 +192,6 @@ def seed_data():
       "image_url": "https://images.unsplash.com/photo-1650682009477-52fd77302b78?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8R29vZ2xlJTIwTmVzdCUyMEh1YnxlbnwwfHwwfHx8MA%3D%3D",
       "recommended_store": "https://store.google.com/product/nest_hub"
     },
-            # ... include all other devices here ...
         ]
 
         devices = [Device(**d) for d in devices_data]
@@ -202,7 +200,6 @@ def seed_data():
 
         print("Devices seeded!")
 
-        # Reviews data
         reviews_data = [
         {
       "id": "1",
@@ -382,10 +379,9 @@ def seed_data():
     },
         ]
 
-        # Convert created_at string to datetime if needed
         from datetime import datetime
         for r in reviews_data:
-            r["deviceId"] = r.pop("deviceId")  # match SQLAlchemy field
+            r["deviceId"] = r.pop("deviceId")
             r["created_at"] = datetime.fromisoformat(r["created_at"].replace("Z", "+00:00"))
 
         reviews = [Review(**r) for r in reviews_data]

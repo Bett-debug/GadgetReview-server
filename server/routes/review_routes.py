@@ -4,7 +4,6 @@ from models import db, Review
 review_bp = Blueprint("reviews", __name__, url_prefix="/api/reviews")
 
 
-# -------------------- GET Reviews --------------------
 @review_bp.route("", methods=["GET"])
 def get_reviews():
     deviceId_str = request.args.get("deviceId")
@@ -21,12 +20,10 @@ def get_reviews():
     return jsonify([r.to_dict() for r in reviews]), 200
 
 
-# -------------------- POST Review --------------------
 @review_bp.route("", methods=["POST"])
 def add_review():
     data = request.get_json()
 
-    # Validate required fields
     if not data or "deviceId" not in data or "user_id" not in data or "rating" not in data:
         return jsonify({"error": "deviceId, user_id, and rating are required"}), 400
 
@@ -45,7 +42,6 @@ def add_review():
         return jsonify({"error": f"Failed to add review: {str(e)}"}), 400
 
 
-# -------------------- DELETE Review --------------------
 @review_bp.route("/<int:id>", methods=["DELETE"])
 def delete_review(id):
     review = Review.query.get_or_404(id)
