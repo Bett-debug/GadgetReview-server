@@ -13,7 +13,7 @@ def create_app():
 
     db.init_app(app)
     Migrate(app, db)
-    CORS(app, origins="http://localhost:3000")  # allow React frontend
+    CORS(app, origins="http://localhost:3000")
 
     app.register_blueprint(device_bp)
     app.register_blueprint(review_bp)

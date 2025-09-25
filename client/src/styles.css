@@ -522,3 +522,7 @@ body {
   margin-right: 2px;
   vertical-align: middle;
 }
+
+.addpage {
+  padding: 80px 20px 50px;
+}

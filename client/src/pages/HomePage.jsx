@@ -14,7 +14,7 @@ function HomePage() {
       </div>
 
       <div className="card">
-        <h2>Your one-stop gadget discovery platform</h2>
+        <h2>Your one stop gadget discovery platform</h2>
         <p>
           We help you find the best phones, laptops, and tablets with detailed
           specs, reviews, and store recommendations.
