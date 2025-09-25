@@ -6,9 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 review_bp = Blueprint("reviews", __name__, url_prefix="/api/reviews")
 
 
-# ----------------------
-# GET reviews
-# ----------------------
+
 @review_bp.route("", methods=["GET"])
 def get_reviews():
     deviceId_str = request.args.get("deviceId")
@@ -24,13 +22,11 @@ def get_reviews():
     return jsonify([r.to_dict() for r in reviews])
 
 
-# ----------------------
-# DELETE a review
-# ----------------------
+
 @review_bp.route("/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_review(id):
-    user_id = int(get_jwt_identity())  # ✅ cast back to int
+    user_id = int(get_jwt_identity())  
     review = Review.query.get_or_404(id)
 
     if review.user_id != user_id:
@@ -41,20 +37,18 @@ def delete_review(id):
     return jsonify({"message": "Review deleted"}), 200
 
 
-# ----------------------
-# POST a new review
-# ----------------------
+
 @review_bp.route("", methods=["POST"])
 @jwt_required()
 def add_review():
-    user_id = int(get_jwt_identity())  # ✅ cast back to int
+    user_id = int(get_jwt_identity())  
     data = request.get_json()
 
     try:
         new_review = Review(
             deviceId=int(data["deviceId"]),
             user_id=user_id,
-            rating=int(data["rating"]),  # ensure it's an integer
+            rating=int(data["rating"]), 
             comment=data.get("comment", ""),
             created_at=datetime.utcnow(),
         )

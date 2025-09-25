@@ -19,7 +19,7 @@ export default function Login() {
 
     const data = await res.json();
     if (res.ok) {
-      // 👇 user first, then token
+
       login(data.user, data.token);
       navigate("/devices");
     } else {

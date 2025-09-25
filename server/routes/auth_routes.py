@@ -21,7 +21,7 @@ def register():
     db.session.add(user)
     db.session.commit()
 
-    # 🔑 Always store identity as string
+    
     token = create_access_token(identity=str(user.id))
 
     return jsonify({"token": token, "user": user.to_dict()}), 201
@@ -33,7 +33,7 @@ def login():
     user = User.query.filter_by(email=data.get("email")).first()
 
     if user and user.check_password(data.get("password")):
-        # 🔑 identity must be a string
+        
         token = create_access_token(identity=str(user.id))
         return jsonify({"token": token, "user": user.to_dict()})
     return jsonify({"error": "Invalid credentials"}), 401
@@ -42,7 +42,7 @@ def login():
 @auth_bp.route("/me", methods=["GET"])
 @jwt_required()
 def me():
-    # Convert back to int for DB lookup
+    
     user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
     return jsonify(user.to_dict())

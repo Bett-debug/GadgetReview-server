@@ -20,7 +20,7 @@ export default function Register() {
 
     const data = await res.json();
     if (res.ok) {
-      // 👇 instantly login after successful registration
+     
       login(data.user, data.token);
       navigate("/devices");
     } else {
