@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -46,6 +47,11 @@ export default function Login() {
           required
         />
         <button type="submit">Login</button>
+        <hr />
+
+        <p>
+          Dont have an acconut <Link to="/register">Register</Link>
+        </p>
       </form>
     </div>
   );

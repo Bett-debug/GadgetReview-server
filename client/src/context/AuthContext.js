@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
     }
   }, [token]);
 
-  // 👇 consistent: user first, then token
   const login = (user, token) => {
     setUser(user);
     setToken(token);

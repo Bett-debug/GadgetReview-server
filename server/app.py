@@ -21,10 +21,8 @@ def create_app():
     Migrate(app, db)
     CORS(app, origins="http://localhost:3000")
 
-    # JWT setup
     jwt.init_app(app)
 
-    # register routes
     app.register_blueprint(device_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(auth_bp)

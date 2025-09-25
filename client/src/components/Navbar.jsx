@@ -34,17 +34,12 @@ export default function Navbar() {
             Add Device
           </Link>
 
-          <Link to="/login">
+          <Link to="/login" className="login-btn">
             <LogIn />
             Login
           </Link>
-
-          <Link to="/register">
-            <UserPlus />
-            Register
-          </Link>
-
           
+
         </div>
       </div>
     </nav>

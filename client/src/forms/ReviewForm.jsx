@@ -66,7 +66,6 @@ export default function ReviewForm({ deviceId, onAdded }) {
     >
       {({ isSubmitting }) => (
         <Form className="form-card">
-          {/* Rating field */}
           <label htmlFor="rating">Rating</label>
           <Field as="select" name="rating" id="rating">
             <option value={5}>5 - Excellent</option>
@@ -77,7 +76,6 @@ export default function ReviewForm({ deviceId, onAdded }) {
           </Field>
           <ErrorMessage name="rating" component="div" className="field-error" />
 
-          {/* Comment field */}
           <label htmlFor="comment">Comment</label>
           <Field as="textarea" name="comment" id="comment" rows="3" />
           <ErrorMessage
@@ -86,7 +84,6 @@ export default function ReviewForm({ deviceId, onAdded }) {
             className="field-error"
           />
 
-          {/* Submit */}
           <div className="form-actions">
             <button
               type="submit"

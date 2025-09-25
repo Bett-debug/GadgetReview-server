@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -53,7 +53,11 @@ export default function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Register</button>
+        <button type="submit">Register</button><hr />
+
+        <p>
+          Have an acconut <Link to="/login">Login</Link>
+        </p>
       </form>
     </div>
   );
