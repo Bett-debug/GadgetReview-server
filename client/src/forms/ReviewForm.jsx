@@ -1,47 +1,77 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { AuthContext } from "../context/AuthContext";
 
 const API_URL = "http://localhost:5000";
 
-function addReview(review) {
-  return fetch(`${API_URL}/api/reviews`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(review),
-  }).then((res) => {
-    if (!res.ok) throw new Error("Failed to add review");
-    return res.json();
-  });
+// ------------------------------
+// API helper
+// ------------------------------
+async function addReview(review, token) {
+  try {
+    const res = await fetch(`${API_URL}/api/reviews`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // ✅ JWT token from AuthContext
+      },
+      body: JSON.stringify(review),
+    });
+
+    const text = await res.text();
+    console.log("📥 Raw server response:", res.status, text);
+
+    if (!res.ok) {
+      throw new Error(text || "Failed to add review");
+    }
+
+    return JSON.parse(text);
+  } catch (err) {
+    console.error("❌ addReview error:", err);
+    throw err;
+  }
 }
 
+// ------------------------------
+// Form validation schema
+// ------------------------------
 const ReviewSchema = Yup.object().shape({
-  user_id: Yup.number().required("User id required").integer().positive(),
   rating: Yup.number().required("Rating required").min(1).max(5),
   comment: Yup.string().required("Please add a comment").min(5),
 });
 
+// ------------------------------
+// Component
+// ------------------------------
 export default function ReviewForm({ deviceId, onAdded }) {
+  const { user, token } = useContext(AuthContext);
+
+  if (!user || !token) {
+    return <p>You must be logged in to post a review.</p>;
+  }
+
   return (
     <Formik
-      initialValues={{ user_id: 1, rating: 5, comment: "" }}
+      initialValues={{ rating: 5, comment: "" }}
       validationSchema={ReviewSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const payload = {
-          deviceId: Number(deviceId),
-          user_id: values.user_id,
+          deviceId: Number(deviceId), // ✅ matches Flask field
           rating: Number(values.rating),
           comment: values.comment,
-          created_at: new Date().toISOString(),
         };
 
-        addReview(payload)
+        console.log("📤 Submitting review payload:", payload);
+
+        addReview(payload, token)
           .then((data) => {
-            onAdded(data);
+            console.log("✅ Review saved:", data);
+            if (onAdded) onAdded(data); // trigger parent reload
             resetForm();
           })
           .catch((e) => {
-            console.error(e);
+            console.error("❌ Error adding review:", e.message);
             alert("Failed: " + e.message);
           })
           .finally(() => setSubmitting(false));
@@ -49,16 +79,9 @@ export default function ReviewForm({ deviceId, onAdded }) {
     >
       {({ isSubmitting }) => (
         <Form className="form-card">
-          <label>Your user number</label>
-          <Field name="user_id" type="number" />
-          <ErrorMessage
-            name="user_id"
-            component="div"
-            className="field-error"
-          />
-
-          <label>Rating</label>
-          <Field as="select" name="rating">
+          {/* Rating field */}
+          <label htmlFor="rating">Rating</label>
+          <Field as="select" name="rating" id="rating">
             <option value={5}>5 - Excellent</option>
             <option value={4}>4 - Very good</option>
             <option value={3}>3 - Good</option>
@@ -67,21 +90,23 @@ export default function ReviewForm({ deviceId, onAdded }) {
           </Field>
           <ErrorMessage name="rating" component="div" className="field-error" />
 
-          <label>Comment</label>
-          <Field as="textarea" name="comment" rows="3" />
+          {/* Comment field */}
+          <label htmlFor="comment">Comment</label>
+          <Field as="textarea" name="comment" id="comment" rows="3" />
           <ErrorMessage
             name="comment"
             component="div"
             className="field-error"
           />
 
+          {/* Submit */}
           <div className="form-actions">
             <button
               type="submit"
               disabled={isSubmitting}
               className="btn primary"
             >
-              Post Review
+              {isSubmitting ? "Posting..." : "Post Review"}
             </button>
           </div>
         </Form>

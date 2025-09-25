@@ -8,17 +8,23 @@ from routes.device_routes import device_bp
 from routes.review_routes import review_bp
 from routes.auth_routes import auth_bp   
 
+jwt = JWTManager()
+...
+
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # initialize extensions
     db.init_app(app)
     bcrypt.init_app(app)
     Migrate(app, db)
-    CORS(app, origins="http://localhost:3000")  # allow React frontend
+    CORS(app, origins="http://localhost:3000")
 
-    # register blueprints
+    # JWT setup
+    jwt.init_app(app)
+
+    # register routes
     app.register_blueprint(device_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(auth_bp)

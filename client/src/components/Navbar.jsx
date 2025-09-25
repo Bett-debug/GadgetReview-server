@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { MonitorSmartphone, Plus, Smartphone , Home} from "lucide-react";
+import {
+  MonitorSmartphone,
+  Plus,
+  Smartphone,
+  Home,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -21,11 +28,23 @@ export default function Navbar() {
             <Smartphone />
             Devices
           </Link>
-          
+
           <Link to="/add-device" className="btn">
             <Plus />
             Add Device
           </Link>
+
+          <Link to="/login">
+            <LogIn />
+            Login
+          </Link>
+
+          <Link to="/register">
+            <UserPlus />
+            Register
+          </Link>
+
+          
         </div>
       </div>
     </nav>

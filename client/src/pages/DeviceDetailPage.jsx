@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ReviewForm from "../forms/ReviewForm";
 import ReviewCard from "../components/ReviewCard";
+import { AuthContext } from "../context/AuthContext";
 
 const API_URL = "http://localhost:5000";
 
@@ -19,18 +20,11 @@ function fetchReviewsForDevice(deviceId) {
   });
 }
 
-function deleteReview(id) {
-  return fetch(`${API_URL}/api/reviews/${id}`, {
-    method: "DELETE",
-  }).then((res) => {
-    if (!res.ok) throw new Error("Failed to delete review");
-    return res.json();
-  });
-}
-
 export default function DeviceDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { token, user } = useContext(AuthContext);
+
   const [device, setDevice] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,8 +55,22 @@ export default function DeviceDetailPage() {
   }
 
   function handleDeleteReview(reviewId) {
+    if (!token) {
+      alert("You must be logged in to delete a review.");
+      return;
+    }
+
     if (window.confirm("Delete this review?")) {
-      deleteReview(reviewId)
+      fetch(`${API_URL}/api/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to delete review");
+          return res.json();
+        })
         .then(() => setReviews((prev) => prev.filter((r) => r.id !== reviewId)))
         .catch((err) => alert("Failed to delete: " + err.message));
     }
@@ -120,13 +128,24 @@ export default function DeviceDetailPage() {
               <ReviewCard
                 key={r.id}
                 review={r}
-                onDelete={() => handleDeleteReview(r.id)}
+                // show delete only if the logged-in user owns this review
+                onDelete={
+                  user && r.user_id === user.id
+                    ? () => handleDeleteReview(r.id)
+                    : null
+                }
               />
             ))
           )}
         </div>
-        <h4>Add a review</h4>
-        <ReviewForm deviceId={Number(id)} onAdded={onReviewAdded} />
+        {user ? (
+          <>
+            <h4>Add a review</h4>
+            <ReviewForm deviceId={Number(id)} onAdded={onReviewAdded} />
+          </>
+        ) : (
+          <p className="muted">Log in to add a review.</p>
+        )}
       </section>
     </div>
   );
