@@ -1,4 +1,4 @@
-# My React App
+# GadgetReview
 
 A React application built using Create React App.
 
